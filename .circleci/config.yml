@@ -40,13 +40,12 @@ jobs:
           docker push $DOCKER_IMAGE:$TAG
     
   deploy: # this can be any name you choose
-    executor: python/default
+    executor: heroku/default
     steps:
       - run:
           name: init environment variables
           command: |
-              echo export SECRET_KEY=$SECRET_KEY
-              echo export SENTRY_DNS=$SENTRY_DNS
+              heroku config:set SECRET_KEY=$SECRET_KEY SENTRY_DNS=$SENTRY_DNS
       - attach_workspace:
           at: ~/project
       - heroku/deploy-via-git:
