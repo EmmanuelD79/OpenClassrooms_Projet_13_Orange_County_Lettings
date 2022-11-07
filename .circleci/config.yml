@@ -42,15 +42,14 @@ jobs:
   deploy: # this can be any name you choose
     executor: heroku/default
     steps:
-      - run:
-          name: init environment variables
-          command: |
-              export SECRET_KEY=$SECRET_KEY 
-              export SENTRY_DNS=$SENTRY_DNS
       - attach_workspace:
           at: ~/project
       - heroku/deploy-via-git:
           force: true
+      - run:
+          name: init environment variables
+          command: |
+              export SECRET_KEY=$SECRET_KEY 
 
 
 workflows:
