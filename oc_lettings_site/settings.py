@@ -8,32 +8,28 @@ import environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
-
 IS_HEROKU = "DYNO" in os.environ
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
-
-# if 'SECRET_KEY' in os.environ:
-#     SECRET_KEY = os.environ["SECRET_KEY"]
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if not IS_HEROKU:
+    env = environ.Env()
+    environ.Env.read_env()
+    SECRET_KEY = env('SECRET_KEY')
+    SENTRY_DNS = env('SENTRY_DNS')
     DEBUG = True
-
 
 # Generally avoid wildcards(*). However since Heroku router provides hostname validation it is ok
 if IS_HEROKU:
     ALLOWED_HOSTS = ["*"]
 else:
     ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -149,8 +145,11 @@ class HerokuDiscoverRunner(DiscoverRunner):
 if "CI" in os.environ:
     TEST_RUNNER = "oc_lettings_site.settings.HerokuDiscoverRunner"
 
+if 'SENTRY_DNS' in os.environ:
+    SENTRY_DNS = os.environ["SENTRY_DNS"]
+
 sentry_sdk.init(
-    dsn=env('SENTRY_DNS'),
+    dsn=SENTRY_DNS,
     integrations=[
         DjangoIntegration(),
     ],
