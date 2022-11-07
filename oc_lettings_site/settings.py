@@ -23,15 +23,9 @@ if not IS_HEROKU:
     SECRET_KEY = env('SECRET_KEY')
     SENTRY_DNS = env('SENTRY_DNS')
     DEBUG = True
-
-if 'SECRET_KEY' in os.environ:
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-
-# Generally avoid wildcards(*). However since Heroku router provides hostname validation it is ok
-if IS_HEROKU:
-    ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ["*"]
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Application definition
 
