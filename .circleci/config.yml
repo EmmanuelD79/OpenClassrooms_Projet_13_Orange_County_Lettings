@@ -40,11 +40,8 @@ jobs:
           docker push $DOCKER_IMAGE:$TAG
     
   deploy: # this can be any name you choose
-    executor: heroku/default # use the default executor defined within the orb
+    executor: python/default
     steps:
-      - run:
-          command: |-
-              heroku config:set SECRET_KEY=${SECRET_KEY} SENTRY_DNS=${SENTRY_DNS}
       - attach_workspace:
           at: ~/project
       - heroku/deploy-via-git:
