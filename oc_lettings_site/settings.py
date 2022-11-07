@@ -145,11 +145,9 @@ class HerokuDiscoverRunner(DiscoverRunner):
 if "CI" in os.environ:
     TEST_RUNNER = "oc_lettings_site.settings.HerokuDiscoverRunner"
 
-if 'SENTRY_DNS' in os.environ:
-    SENTRY_DNS = os.environ["SENTRY_DNS"]
 
 sentry_sdk.init(
-    dsn=SENTRY_DNS,
+    dsn=os.environ["SENTRY_DNS"],
     integrations=[
         DjangoIntegration(),
     ],
