@@ -14,8 +14,7 @@ IS_HEROKU = "DYNO" in os.environ
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if 'SECRET_KEY' in os.environ:
-    SECRET_KEY = os.environ["SECRET_KEY"]
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if not IS_HEROKU:
@@ -24,6 +23,9 @@ if not IS_HEROKU:
     SECRET_KEY = env('SECRET_KEY')
     SENTRY_DNS = env('SENTRY_DNS')
     DEBUG = True
+
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Generally avoid wildcards(*). However since Heroku router provides hostname validation it is ok
 if IS_HEROKU:
@@ -147,7 +149,7 @@ if "CI" in os.environ:
 
 
 sentry_sdk.init(
-    dsn=os.environ["SENTRY_DNS"],
+    dsn=os.environ.get('SENTRY_DNS', SENTRY_DNS),
     integrations=[
         DjangoIntegration(),
     ],
