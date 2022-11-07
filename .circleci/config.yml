@@ -42,9 +42,9 @@ jobs:
   deploy: # this can be any name you choose
     executor: python/default
     steps:
-      - run:
-          command: |
-            heroku config:set SECRET_KEY=${SECRET_KEY} SENTRY_DNS=${SENTRY_DNS}
+      - environment:
+          SECRET_KEY: ${SECRET_KEY}
+          SENTRY_DNS: ${SENTRY_DNS}
       - attach_workspace:
           at: ~/project
       - heroku/deploy-via-git:
