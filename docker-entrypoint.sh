@@ -6,14 +6,14 @@ python3.11 manage.py migrate --noinput
 # collect static files
 python3.11 manage.py collectstatic --noinput
 
-python3.11 manage.py runserver 0.0.0.0:8000
+python3.11 manage.py runserver
 
 # Start Gunicorn processes
-#echo Starting Gunicorn.
+# echo Starting Gunicorn.
 
-#exec gunicorn app.wsgi:application \
+# exec gunicorn app.wsgi:application \
 #    --name app \
-#    --bind 0.0.0.0:80 \
+#    --bind 0.0.0.0:8000 \
 #    --workers 3 \
 #    --log-level=info \
 #    --log-file=/src/logs/gunicorn.log \

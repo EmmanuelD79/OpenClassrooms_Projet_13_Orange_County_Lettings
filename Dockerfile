@@ -13,9 +13,11 @@ COPY requirements.txt /app/requirements.txt
 
 RUN mkdir -p /app/assets \
     && mkdir -p /app/logs \
-    && chmod 755 /app \
+    && chmod u+x /app \
     && pip install --no-cache-dir -r /app/requirements.txt
 
 COPY . /app
+
+RUN chmod u+x /app/docker-entrypoint.sh
 
 CMD ["/app/docker-entrypoint.sh", "-n"]
