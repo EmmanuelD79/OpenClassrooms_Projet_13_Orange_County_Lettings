@@ -45,7 +45,8 @@ jobs:
       - run:
           name: init environment variables
           command: |
-              heroku config:set SECRET_KEY=$SECRET_KEY SENTRY_DNS=$SENTRY_DNS
+              export SECRET_KEY=$SECRET_KEY 
+              export SENTRY_DNS=$SENTRY_DNS
       - attach_workspace:
           at: ~/project
       - heroku/deploy-via-git:
