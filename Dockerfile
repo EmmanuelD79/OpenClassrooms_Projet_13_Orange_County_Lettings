@@ -1,4 +1,4 @@
-FROM python:3.11.0-alpine:3.16
+FROM python:3.11.0-alpine3.16
 
 # This prevents Python from writing out pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
