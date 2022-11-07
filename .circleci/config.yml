@@ -42,10 +42,14 @@ jobs:
   deploy: # this can be any name you choose
     executor: heroku/default # use the default executor defined within the orb
     steps:
+      - run:
+          command: |-
+              heroku config:set SECRET_KEY=${SECRET_KEY} SENTRY_DNS=${SENTRY_DNS}
       - attach_workspace:
           at: ~/project
       - heroku/deploy-via-git:
           force: true
+
 
 workflows:
   build_test_deploy:
