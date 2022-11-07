@@ -41,9 +41,11 @@ jobs:
     
   deploy: # this can be any name you choose
     executor: python/default
-    environment:
-      SECRET_KEY: ${SECRET_KEY}
-      SENTRY_DNS: ${SENTRY_DNS}
+    run:
+      - name: init environment variables
+      - command: |
+          echo export SECRET_KEY=$SECRET_KEY
+          echo export SENTRY_DNS=$SENTRY_DNS
     steps:
       - attach_workspace:
           at: ~/project
