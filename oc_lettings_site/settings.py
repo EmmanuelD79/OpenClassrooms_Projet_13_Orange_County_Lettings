@@ -1,8 +1,17 @@
 import os
 from django.test.runner import DiscoverRunner
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+import environ
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 IS_HEROKU = "DYNO" in os.environ
 
@@ -10,10 +19,10 @@ IS_HEROKU = "DYNO" in os.environ
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'fp$9^593hsriajg$_%=5trot9g!1qa@ew(o-1#@=&4%=hp46(s'
+SECRET_KEY = env('SECRET_KEY')
 
-if 'SECRET_KEY' in os.environ:
-    SECRET_KEY = os.environ["SECRET_KEY"]
+# if 'SECRET_KEY' in os.environ:
+#     SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if not IS_HEROKU:
@@ -84,6 +93,8 @@ DATABASES = {
     }
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -138,3 +149,19 @@ class HerokuDiscoverRunner(DiscoverRunner):
 # Use HerokuDiscoverRunner on Heroku CI
 if "CI" in os.environ:
     TEST_RUNNER = "oc_lettings_site.settings.HerokuDiscoverRunner"
+
+sentry_sdk.init(
+    dsn=env('SENTRY_DNS'),
+    integrations=[
+        DjangoIntegration(),
+    ],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
