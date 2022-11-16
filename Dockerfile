@@ -20,4 +20,4 @@ COPY . .
 
 RUN chmod u+x docker-entrypoint.sh
 
-CMD ["app/docker-entrypoint.sh", "-n"]
+ENTRYPOINT ["docker-entrypoint.sh", "-n"]
