@@ -1,23 +1,22 @@
-FROM python:3.11.0-alpine3.16
-
-# This prevents Python from writing out pyc files
-ENV PYTHONDONTWRITEBYTECODE 1
-
-# This keeps Python from buffering stdin/stdout
-ENV PYTHONUNBUFFERED 1
+FROM python:3.9
 
 EXPOSE 8000
 
-WORKDIR /app
-COPY requirements.txt requirements.txt
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV DEBUG=0
+ENV PORT 8000
 
-RUN mkdir -p /assets \
-    && mkdir -p /logs \
-    && chmod u+x /app \
-    && pip install --no-cache-dir -r requirements.txt
+WORKDIR /app
+
+# Install  requirements
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY . .
-RUN python3.11 manage.py migrate --noinput
-RUN python3.11 manage.py collectstatic --noinput
 
-CMD gunicorn oc_lettings_site.wsgi:application --bind 0.0.0.0:8000
+# Collect static files in app
+RUN python manage.py collectstatic --noinput --clear
+
+CMD gunicorn oc_lettings_site.wsgi:application --bind 0.0.0.0:$PORT
