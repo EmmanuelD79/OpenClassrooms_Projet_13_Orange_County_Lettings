@@ -1,9 +1,9 @@
 import os
-from django.test.runner import DiscoverRunner
 import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 import environ
 
+from sentry_sdk.integrations.django import DjangoIntegration
+from django.test.runner import DiscoverRunner
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,6 +22,7 @@ if os.path.exists(env_file_path):
 if os.environ.get('PHASE') == 'production':
     DEBUG = False
     ALLOWED_HOSTS = ['oc-lettings79.herokuapp.com']
+    CSRF_TRUSTED_ORIGINS = ["https://oc-lettings79.herokuapp.com"]
 else:
     DEBUG = True
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
