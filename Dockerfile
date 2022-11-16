@@ -18,6 +18,6 @@ RUN mkdir -p /assets \
 
 COPY . .
 
-RUN chmod u+x docker-entrypoint.sh
+RUN python manage.py collectstatic --noinput --clear
 
-ENTRYPOINT ["docker-entrypoint.sh", "-n"]
+CMD gunicorn oc_lettings_site.wsgi:application --bind 0.0.0.0:8000
