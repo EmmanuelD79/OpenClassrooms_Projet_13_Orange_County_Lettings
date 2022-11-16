@@ -38,6 +38,10 @@ jobs:
           docker build -t $DOCKER_IMAGE:$TAG .
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_IMAGE:$TAG
+      - environment:
+          PHASE=$PHASE
+          SENTRY_DNS=$SENTRY_DNS
+          SECRET_KEY=$SECRET_KEY
     
   deploy: # this can be any name you choose
     machine: true
