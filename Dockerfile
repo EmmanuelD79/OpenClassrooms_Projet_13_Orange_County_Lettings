@@ -9,15 +9,15 @@ ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 
 WORKDIR /app
-COPY requirements.txt /app/requirements.txt
+COPY requirements.txt requirements.txt
 
-RUN mkdir -p /app/assets \
-    && mkdir -p /app/logs \
+RUN mkdir -p /assets \
+    && mkdir -p /logs \
     && chmod u+x /app \
-    && pip install --no-cache-dir -r /app/requirements.txt
+    && pip install --no-cache-dir -r requirements.txt
 
-COPY . /app
+COPY . .
 
-RUN chmod u+x /app/docker-entrypoint.sh
+RUN chmod u+x docker-entrypoint.sh
 
-CMD ["/app/docker-entrypoint.sh", "-n"]
+CMD ["docker-entrypoint.sh", "-n"]
