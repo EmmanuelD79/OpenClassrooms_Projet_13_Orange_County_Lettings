@@ -8,25 +8,27 @@ import environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-IS_HEROKU = "DYNO" in os.environ
+env_file_path = os.path.join(BASE_DIR, 'oc_lettings_site/.env')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
-if not IS_HEROKU:
+if os.path.exists(env_file_path):
     env = environ.Env()
     environ.Env.read_env()
     SECRET_KEY = env('SECRET_KEY')
     SENTRY_DNS = env('SENTRY_DNS')
-    DEBUG = True
+    ENV = env('ENV')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+if os.environ.get('ENV') == "PRODUCTION":
+    DEBUG = False
 else:
-    ALLOWED_HOSTS = ["*"]
+    DEBUG = True
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
+
+if DEBUG:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+else:
+    ALLOWED_HOSTS = ['oc-lettings79.herokuapp.com']
 
 # Application definition
 
@@ -109,9 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -121,11 +123,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = 'static/'
 
-# Enable WhiteNoise's GZip compression of static assets.
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_URL = '/static/'
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable WhiteNoise's GZip compression of static assets.
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Test Runner Config
