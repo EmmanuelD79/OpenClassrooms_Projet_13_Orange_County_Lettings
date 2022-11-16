@@ -18,6 +18,6 @@ RUN mkdir -p /assets \
 
 COPY . .
 
-RUN chmod u+x app/docker-entrypoint.sh
+RUN chmod u+x docker-entrypoint.sh
 
 CMD ["app/docker-entrypoint.sh", "-n"]
