@@ -20,10 +20,10 @@ if os.path.exists(env_file_path):
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == "PRODUCTION":
     DEBUG = False
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    ALLOWED_HOSTS = ['oc-lettings79.herokuapp.com']
 else:
     DEBUG = True
-    ALLOWED_HOSTS = ['oc-lettings79.herokuapp.com']
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
