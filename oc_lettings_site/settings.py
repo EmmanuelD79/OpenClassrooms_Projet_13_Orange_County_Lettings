@@ -15,15 +15,19 @@ if os.path.exists(env_file_path):
     environ.Env.read_env()
     SECRET_KEY = env('SECRET_KEY')
     SENTRY_DNS = env('SENTRY_DNS')
-    PRODUCTION = env('PRODUCTION')
+    PHASE = env('PHASE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('PRODUCTION'):
+
+
+if os.environ.get('PHASE') == 'production':
     DEBUG = False
     ALLOWED_HOSTS = ['oc-lettings79.herokuapp.com']
 else:
     DEBUG = True
     ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    
+
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -37,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic',
     'lettings',
     'profiles'
 ]
