@@ -15,10 +15,10 @@ if os.path.exists(env_file_path):
     environ.Env.read_env()
     SECRET_KEY = env('SECRET_KEY')
     SENTRY_DNS = env('SENTRY_DNS')
-    ENV = env('ENV')
+    PRODUCTION = env('PRODUCTION')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == "PRODUCTION":
+if os.environ.get('PRODUCTION'):
     DEBUG = False
     ALLOWED_HOSTS = ['oc-lettings79.herokuapp.com']
 else:
