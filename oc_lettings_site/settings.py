@@ -8,14 +8,12 @@ from django.test.runner import DiscoverRunner
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-try:
-    env = environ.Env()
+env = environ.Env(MODE=(str, 'developpement'))
+
+if os.environ.get('MODE') != 'production':
     environ.Env.read_env()
     SECRET_KEY = env('SECRET_KEY')
     SENTRY_DNS = env('SENTRY_DNS')
-    MODE = env('MODE')
-except:
-    pass
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
