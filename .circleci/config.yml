@@ -35,9 +35,9 @@ jobs:
       # build and push Docker image
       - run: |
           TAG=$CIRCLE_SHA1
-          docker build -t $DOCKER_IMAGE:$TAG .
+          docker build -t $DOCKER_IMAGE:$TAG -t $DOCKER_IMAGE:latest.
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push $DOCKER_IMAGE:$TAG
+          docker push --all-tags $DOCKER_IMAGE
     
   deploy: # this can be any name you choose
     machine: true
