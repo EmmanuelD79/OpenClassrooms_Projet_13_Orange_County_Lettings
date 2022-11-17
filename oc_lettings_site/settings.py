@@ -8,18 +8,18 @@ from django.test.runner import DiscoverRunner
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env_file_path = os.path.join(BASE_DIR, 'oc_lettings_site/.env')
-
-if os.path.exists(env_file_path):
+try:
     env = environ.Env()
     environ.Env.read_env()
     SECRET_KEY = env('SECRET_KEY')
     SENTRY_DNS = env('SENTRY_DNS')
-    PHASE = env('PHASE')
+    MODE = env('MODE')
+except:
+    pass
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-if os.environ.get('PHASE') == 'production':
+if os.environ.get('MODE') == 'production':
     DEBUG = False
     ALLOWED_HOSTS = ['oc-lettings79.herokuapp.com']
     CSRF_TRUSTED_ORIGINS = ["https://oc-lettings79.herokuapp.com"]
