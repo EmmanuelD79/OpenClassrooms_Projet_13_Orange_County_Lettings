@@ -25,4 +25,4 @@ COPY . .
 # Collect static files in app
 RUN python manage.py collectstatic --noinput
 
-CMD gunicorn oc_lettings_site.wsgi:application --bind 0.0.0.0:$PORT
+CMD gunicorn --bind 0.0.0.0:$PORT --timeout 5 --max-requests 600 --threads=10 --worker-class=sync oc_lettings_site.wsgi:application 

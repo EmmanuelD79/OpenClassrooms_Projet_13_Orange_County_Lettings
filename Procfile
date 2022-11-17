@@ -1,1 +1,1 @@
-web: gunicorn oc_lettings_site.wsgi
+web: gunicorn --timeout 5 --max-requests 600 --threads=10 --worker-class=sync oc_lettings_site.wsgi:application 
