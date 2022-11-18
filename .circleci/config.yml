@@ -39,7 +39,6 @@ jobs:
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_IMAGE:$TAG 
           docker push $DOCKER_IMAGE:latest 
-
     
   deploy: # this can be any name you choose
     machine: true
@@ -47,15 +46,11 @@ jobs:
       - checkout
       - run:
           name: Deploy on heroku
-            # HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SECRET_KEY=${SECRET_KEY} -a ${HEROKU_APP_NAME}
-            # HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set SENTRY_DSN=${SENTRY_DSN} -a ${HEROKU_APP_NAME}
-            # HEROKU_API_KEY=${HEROKU_API_KEY} heroku config:set MODE=${MODE} -a ${HEROKU_APP_NAME}
           command: |
             sudo curl https://cli-assets.heroku.com/install.sh | sh
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a ${HEROKU_APP_NAME} web
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a ${HEROKU_APP_NAME} web
-
 
 workflows:
   build_test_deploy:
