@@ -97,6 +97,7 @@ Nous avons 2 branches sur ce projet :
 - Master
 
 Un push sur la branche Refactor lancera dans CircleCi le build et les tests.
+
 Un push sur la branche Master lancera en plus du build et des tests, le build de l'image du projet avec un push sur le repository de DockerHub et le déploiement sur Heroku.
 
 
@@ -118,7 +119,7 @@ Il faut les paramétrer dans le `Project settings` et `Environment Variables`.
 Elles sont :
 
 | Name | Description |
-| :--------------- |:---------------|
+|:--------------- |:---------------|
 | DOCKER_IMAGE | Nom de l'image Docker |
 | DOCKER_PASS | Mot de passe du compte Docker|
 | DOCKER_USER | Utilisateur du compte Docker |
@@ -152,7 +153,7 @@ La dernière version du projet est taguée `latest`.
 
 L’image est récupérable pour un déploiement local par exemple avec la commande :
 
-`docker run --pull = always --env-file./oc_lettings_site/. env -p 8000 : 8000 --name oc_lettings79 manu2179/openclassrooms_projet_13_orange_county_lettings : latest`
+`docker run --pull=always --env-file ./oc_lettings_site/.env -p 8000:8000 --name oc_lettings79 manu2179/openclassrooms_projet_13_orange_county_lettings:latest`
 
 
 ### SENTRY. io
