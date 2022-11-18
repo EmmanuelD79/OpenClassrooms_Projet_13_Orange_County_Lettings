@@ -53,9 +53,18 @@ jobs:
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a ${HEROKU_APP_NAME} web
 
 workflows:
+  build_test:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              ignore: master
   build_test_deploy:
     jobs:
-      - build_and_test
+      - build_and_test:
+          filters:
+            branches:
+              only: master
       - build_and_push_docker_image:
           requires:
             - build_and_test 
