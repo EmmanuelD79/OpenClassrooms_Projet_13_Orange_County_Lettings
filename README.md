@@ -76,9 +76,6 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
 
-
-`docker run --pull=always --env-file ./oc_lettings_site/.env -p 8000:8000 --name oc_lettings79 manu2179/openclassrooms_projet_13_orange_county_lettings:latest`
-
 ## Pipeline CI/CD 
 
 ### Prérequis
