@@ -4,13 +4,10 @@ from django.db import migrations
 
 
 def migrate_datas(apps, schema_editor):
-    # We can't import the Person model directly as it may be a newer
-    # version than this migration expects. We use the historical version.
 
     try:
         OldProfile = apps.get_model('oc_lettings_site', 'Profile')
     except LookupError:
-        # The old app isn't installed.
         return
 
     NewProfile = apps.get_model('profiles', 'Profile')

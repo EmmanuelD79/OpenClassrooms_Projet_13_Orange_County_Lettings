@@ -2,19 +2,22 @@ from django.db import migrations
 
 
 def migrate_datas(apps, schema_editor):
-    # We can't import the Person model directly as it may be a newer
-    # version than this migration expects. We use the historical version.
 
     try:
         OldAddress = apps.get_model('oc_lettings_site', 'Address')
         OldLetting = apps.get_model('oc_lettings_site', 'Letting')
     except LookupError:
-        # The old app isn't installed.
         return
 
     NewAddress = apps.get_model('lettings', 'Address')
     NewAddress.objects.bulk_create(
-        NewAddress(number=old_object.number, street=old_object.street, city=old_object.city, state=old_object.state, zip_code=old_object.zip_code, country_iso_code=old_object.country_iso_code)
+        NewAddress(number=old_object.number, 
+                   street=old_object.street, 
+                   city=old_object.city, 
+                   state=old_object.state, 
+                   zip_code=old_object.zip_code, 
+                   country_iso_code=old_object.country_iso_code
+                   )
         for old_object in OldAddress.objects.all()
     )
     
