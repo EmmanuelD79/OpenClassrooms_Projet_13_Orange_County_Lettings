@@ -32,6 +32,13 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
 
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo 'export SENTRY_DNS="$SENTRY_DNS"' >> "$BASH_ENV"
+            echo 'export SECRET_KEY="$SECRET_KEY"' >> "$BASH_ENV"
+            echo 'export MODE="$MODE"' >> "$BASH_ENV"
+
       # build and push Docker image
       - run: |
           TAG=$CIRCLE_SHA1
