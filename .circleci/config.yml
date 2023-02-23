@@ -75,7 +75,7 @@ workflows:
               only: master
       - deploy:
           requires:
-            - build_and_test
+            - build_and_test # only deploy if the build_and_test job has completed
             - build_and_push_docker_image
           filters:
             branches:
